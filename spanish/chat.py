@@ -1,11 +1,12 @@
 import os
 
-import azure.identity
-import openai
-from dotenv import load_dotenv
+# azure-identity es necesario solo si planeas usar Azure OpenAI. Si no, puedes omitir esta importación y la configuración relacionada.
+import azure.identity # Asegúrate de instalar azure-identity si usas Azure, pip install azure-identity
+import openai # openai nos permite interactuar con la API de OpenAI, ya sea a través de Azure, OpenAI.com, Ollama o GitHub. Asegúrate de instalarlo con pip install openai
+from dotenv import load_dotenv # dotenv nos ayuda a cargar las variables de entorno desde un archivo .env, lo que facilita la gestión de claves API y otros secretos sin hardcodearlos en el código. Asegúrate de instalarlo con pip install python-dotenv
 
 # Configura el cliente de OpenAI para usar la API de Azure, OpenAI.com u Ollama
-load_dotenv(override=True)
+load_dotenv(override=True) # Carga las variables de entorno desde el archivo .env, sobrescribiendo cualquier variable existente
 API_HOST = os.getenv("API_HOST", "github")
 
 if API_HOST == "azure":
@@ -33,7 +34,7 @@ else:
 
 response = client.chat.completions.create(
     model=MODEL_NAME,
-    temperature=0.7,
+    temperature=0.7, # Controla la creatividad de la respuesta. Un valor más alto (como 0.9) hará que la respuesta sea más creativa, mientras que un valor más bajo (como 0.2) hará que la respuesta sea más precisa y directa.
     messages=[
         {"role": "system", "content": "Eres un asistente útil que hace muchas referencias a gatos y usa emojis."},
         {"role": "user", "content": "Escribe un haiku sobre un gato hambriento que quiere atún"},
